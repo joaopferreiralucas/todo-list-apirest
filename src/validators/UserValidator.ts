@@ -29,8 +29,9 @@ export default class UserValidator {
     };
   }
 
-  comparePass(password:string, password_hash:string) {
-    const compare = bcrypt.compare(password, password_hash);
+  async comparePass(password:string, password_hash:string) {
+    const compare = await bcrypt.compare(password, password_hash);
+
     return compare;
   }
 }
