@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+
+  name      String
+  last_name String
+  email     String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  board_admin  Board[] @relation("admin_id")
+  board_simple Board[] @relation("simple_id")
+
+  @@map("users")
+}
+
+model Board {
+  id String @id @default(uuid())
+
+  name String
+
+  simple_users User   @relation("simple_id", fields: [simple_id], references: [id])
+  simple_id    String
+
+  admin_users User   @relation("admin_id", fields: [admin_id], references: [id])
+  admin_id    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("boards")
+}
+
+model Card {
+  id String @id @default(uuid())
+
+  name        String
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("cards")
+}
