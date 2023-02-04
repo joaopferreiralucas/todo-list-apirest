@@ -69,6 +69,22 @@ class UserBoardController {
       return res.status(400).json(e);
     }
   }
+
+  async editUser(req:Request, res:Response) {
+    try {
+      const { userId } = req;
+      const levlUser:any = await prisma.userBoard.findMany({ where: { user_id: userId, board_id: req.body.board_id } });
+
+      if (levlUser[0].user_level === 1) {
+        const editedUser = await prisma.userBoard.update({ where: { id: req.body.id }, data: { user_level: req.body.user_level } });
+
+        return res.json(editedUser);
+      }
+      return res.json('voce precisa ser adm da board');
+    } catch (e) {
+      return res.status(400).json(e);
+    }
+  }
 }
 
 export default new UserBoardController();

@@ -9,5 +9,6 @@ router.get('/showyours', loginRequired, boardController.showYours);
 router.post('/adduser', loginRequired, boardController.addUser);
 router.delete('/removeuser', loginRequired, boardController.removeUser);
 router.get('/viewusers', loginRequired, boardController.viewUsers);
+router.put('/editusers', loginRequired, boardController.editUser);
 
 export default router;
