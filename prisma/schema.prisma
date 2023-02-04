@@ -49,6 +49,7 @@ model Card {
 
   board    Board  @relation(fields: [board_id], references: [id])
   board_id String
+  File     File[]
 
   @@map("cards")
 }
@@ -65,4 +66,15 @@ model UserBoard {
   user_level Int
 
   @@map("usersboards")
+}
+
+model File {
+  id String @id @default(uuid())
+
+  originalname String
+  filename     String
+  url          String
+
+  card    Card   @relation(fields: [card_id], references: [id])
+  card_id String
 }
