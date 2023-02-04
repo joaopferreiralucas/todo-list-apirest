@@ -18,11 +18,9 @@ model User {
   email    String @unique
   password String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  board_admin  Board[] @relation("admin_id")
-  board_simple Board[] @relation("simple_id")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  UserBoard UserBoard[]
 
   @@map("users")
 }
@@ -32,14 +30,10 @@ model Board {
 
   name String
 
-  simple_users User   @relation("simple_id", fields: [simple_id], references: [id])
-  simple_id    String
-
-  admin_users User   @relation("admin_id", fields: [admin_id], references: [id])
-  admin_id    String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  UserBoard UserBoard[]
+  BoardCard BoardCard[]
 
   @@map("boards")
 }
@@ -50,8 +44,35 @@ model Card {
   name        String
   description String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  BoardCard BoardCard[]
 
   @@map("cards")
+}
+
+model UserBoard {
+  id String @id @default(uuid())
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  board    Board  @relation(fields: [board_id], references: [id])
+  board_id String
+
+  user_level Int
+
+  @@map("usersboards")
+}
+
+model BoardCard {
+  id String @id @default(uuid())
+
+  board    Board  @relation(fields: [board_id], references: [id])
+  board_id String
+
+  card    Card   @relation(fields: [card_id], references: [id])
+  card_id String
+
+  @@map("boardscards")
 }
