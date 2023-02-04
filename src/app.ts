@@ -6,6 +6,7 @@ import userRoutes from './routes/userRoutes';
 import tokenRoutes from './routes/tokenRoutes';
 import boardRoutes from './routes/boardRoutes';
 import userBoardRoutes from './routes/userBoardRoutes';
+import cardRoutes from './routes/cardRoutes';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ class App {
   routes() {
     this.app.use('/tokens/', tokenRoutes);
     this.app.use('/boards', userBoardRoutes);
+    this.app.use('/cards', cardRoutes);
     this.app.use('/', boardRoutes);
     this.app.use('/', homeRoutes);
     this.app.use('/', userRoutes);

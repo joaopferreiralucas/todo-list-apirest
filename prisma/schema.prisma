@@ -33,7 +33,7 @@ model Board {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   UserBoard UserBoard[]
-  BoardCard BoardCard[]
+  Card      Card[]
 
   @@map("boards")
 }
@@ -44,9 +44,11 @@ model Card {
   name        String
   description String?
 
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  BoardCard BoardCard[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  board    Board  @relation(fields: [board_id], references: [id])
+  board_id String
 
   @@map("cards")
 }
@@ -63,16 +65,4 @@ model UserBoard {
   user_level Int
 
   @@map("usersboards")
-}
-
-model BoardCard {
-  id String @id @default(uuid())
-
-  board    Board  @relation(fields: [board_id], references: [id])
-  board_id String
-
-  card    Card   @relation(fields: [card_id], references: [id])
-  card_id String
-
-  @@map("boardscards")
 }
